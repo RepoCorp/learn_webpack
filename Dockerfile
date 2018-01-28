@@ -15,14 +15,19 @@ RUN apt-get install apt-transport-https -y \
 RUN mkdir /app
 WORKDIR /app
 
-ADD . /app
-
 ENV BUNDLE_GEMFILE=/app/Gemfile \
     BUNDLE_JOBS=5 \
     BUNDLE_PATH=/bundle
 
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
 RUN gem install bundler && bundle install
+
+COPY package.json /app/package.json
+COPY yarn.lock /app/yarn.lock
 RUN yarn install
+
+COPY . /app
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["rails", "server", "puma"]

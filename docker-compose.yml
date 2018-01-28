@@ -1,0 +1,30 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - data:/var/lib/postgresql
+    ports:
+    - "5432"
+  web:
+    build: .
+    command: bundle exec rails server -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/nagless
+      - bundle:/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - webpack
+  webpack:
+    build: .
+    command: bundle exec bin/webpack-dev-server
+    volumes:
+      - .:/nagless
+    ports:
+      - "8080:8080"
+
+volumes:
+  bundle:
+  data:

@@ -15,20 +15,14 @@ RUN apt-get install apt-transport-https -y \
 RUN mkdir /app
 WORKDIR /app
 
-ADD Gemfile /nagless/Gemfile
-ADD Gemfile.lock /nagless/Gemfile.lock
+ADD . /app
 
 ENV BUNDLE_GEMFILE=/app/Gemfile \
     BUNDLE_JOBS=5 \
     BUNDLE_PATH=/bundle
 
-RUN gem install bundler && bundle install
-
-ADD package.json /nagless/package.json
-ADD yarn.lock /nagless/yarn.lock
+RUN bundle install
 RUN yarn install
-
-ADD . /app
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["rails", "server", "puma"]

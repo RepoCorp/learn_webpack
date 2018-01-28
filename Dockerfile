@@ -15,8 +15,8 @@ RUN apt-get install apt-transport-https -y \
 RUN mkdir /app
 WORKDIR /app
 
-ADD Gemfile /nagless/Gemfile
-ADD Gemfile.lock /nagless/Gemfile.lock
+ADD Gemfile /app/Gemfile
+ADD Gemfile.lock /app/Gemfile.lock
 
 ENV BUNDLE_GEMFILE=/app/Gemfile \
     BUNDLE_JOBS=5 \
@@ -24,8 +24,8 @@ ENV BUNDLE_GEMFILE=/app/Gemfile \
 
 RUN gem install bundler && bundle install
 
-ADD package.json /nagless/package.json
-ADD yarn.lock /nagless/yarn.lock
+ADD package.json /app/package.json
+ADD yarn.lock /app/yarn.lock
 RUN yarn install
 
 ADD . /app

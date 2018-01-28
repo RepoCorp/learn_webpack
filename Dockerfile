@@ -21,7 +21,7 @@ ENV BUNDLE_GEMFILE=/app/Gemfile \
     BUNDLE_JOBS=5 \
     BUNDLE_PATH=/bundle
 
-RUN bundle install
+RUN gem install bundler && bundle install
 RUN yarn install
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
